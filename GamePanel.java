@@ -17,17 +17,17 @@ After the first judge thing, one of the positions of the hand of the judge is nu
 /******************************************************/
 public class GamePanel extends JPanel
 {
-   public int numitems, availablePrompts, judge, currentPlayer;
-   public JLabel currentPromptLabel, firstGif, secondGif, thirdGif, fourthGif, fifthGif, label, currentPlayerLabel;
-   public Prompt[] promptsArray;
-   public String[] gifsArray, chosenGifsArray;
+   private int numitems, availablePrompts, judge, currentPlayer;
+   private JLabel currentPromptLabel, firstGif, secondGif, thirdGif, fourthGif, fifthGif, label, currentPlayerLabel;
+   private Prompt[] promptsArray;
+   private String[] gifsArray, chosenGifsArray;
    private BufferedImage myImage;
    private Graphics myBuffer;
-   public int[] randomGif, usedRandoms, chosenGifsHandPos;
-   public JButton button, resetPrompts, select1, select2, select3, select4, select5;
-   public Player[] players;
-   public JLabel[] scoreLabels, chosenGif;
-   public JButton[] selectWinningGifButton, selectGifButton, playerReadyButton;
+   private int[] randomGif, usedRandoms, chosenGifsHandPos;
+   private JButton button, resetPrompts, select1, select2, select3, select4, select5;
+   private Player[] players;
+   private JLabel[] scoreLabels, chosenGif;
+   private JButton[] selectWinningGifButton, selectGifButton, playerReadyButton;
    public GamePanel() throws Exception
    {
       setLayout(new BorderLayout());
@@ -160,11 +160,7 @@ public class GamePanel extends JPanel
          selectGifButton[x].addActionListener(new SelectGifListener());
          selectGifButton[x].setEnabled(false);
       }
-      
-       
-      
-      
-      
+   
       JPanel gif1 = new JPanel();
       gif1.setLayout(new GridLayout(2, 1));
       firstGif = new JLabel("", SwingConstants.CENTER);
@@ -236,7 +232,6 @@ public class GamePanel extends JPanel
       /**********Enables the player Ready button for the current player**********/
       playerReadyButton[currentPlayer].setEnabled(true);
    }
-   
    private class NewPromptListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
@@ -388,6 +383,15 @@ public class GamePanel extends JPanel
             playerReady(players[5]);
       }
    }
+   
+   /**
+   *Sets a new and random prompt.
+   *Checks if there are still availablePrompts, and if there is, generates a random integer from zero to the length of the prompt array.
+   *Then, the method checks if the prompt in the index of the random number in promptArray has already been used.
+   *If it has been used already, it generates a new random number and repeats the process. If it hasn't been used, it sets the prompt at the index of the random number in the prompt array as used.
+   *Then the text of the JLabel that displays the prompt is set to the random prompt, and availablePrompts is decreased by one.
+   *If there are no more available prompts, the text of the JLabel that displays the prompt is set to "Game over." and disables all  JButtons and sets the icons of all of the JLabels holding the gifs to null.
+   */
    public void newPrompt()
    {
       if(availablePrompts > 0)
@@ -415,6 +419,13 @@ public class GamePanel extends JPanel
          
       }
    }
+   
+   /**
+   *Assigns a new gif to the empty hand slot of the player argument.
+   *Goes through the player argument's hand and checks for any empty slots. Then, the method generates a random number from zero to the length of the gifsArray.
+   *The empty slot of the player's hand is assigned the random gif.
+   *@param p The player to be assigned a new gif.
+   */
    public void newGif(Player p)
    {
       int emptyHandSlot = -1;
